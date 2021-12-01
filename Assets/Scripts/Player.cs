@@ -1,0 +1,186 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Player : MonoBehaviour
+{
+    private SpriteRenderer sprite;
+    private Rigidbody2D rb;
+    private Animator anima;
+    private MovimentState state = MovimentState.idle;
+    private UIManager uiManager;
+    private bool isGround;
+    private enum MovimentState { idle, walk, jump, fall, hit };
+    private float gravityMult = 2f;
+    private float gravity;
+    private float distance;
+    [SerializeField] private float jumpForce = 10f;
+
+    public Transform groundCheck;
+    public Transform zeroPoint;
+    public LayerMask groundLayer;
+    public float speed = 5f;
+    public float energy = 100f;
+    public float checkRadius = 0.5f;
+    public static bool isFalling = false;
+    public static float score;
+
+    Vector3 movement;
+
+    void Start()
+    {
+        movement = new Vector3();
+        movement.x = 2f;
+        movement.y = -1.5f;
+        sprite = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
+        anima = GetComponent<Animator>();
+        uiManager = FindObjectOfType<UIManager>();
+        gravity = rb.gravityScale;
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        distance = transform.position.y - zeroPoint.position.y;
+        if ((transform.position.y > zeroPoint.position.y) && state != MovimentState.fall)
+        {
+            if(transform.position.y > score)
+            {
+               score = (int)distance;
+            }
+        }
+
+        uiManager.UpdateScore((int)score);
+
+        if (movement.x > 0f)
+        {
+            sprite.flipX = false;
+        }
+        else if (movement.x < 0f)
+        {
+            sprite.flipX = true;
+        }
+        if(state != MovimentState.hit)
+        {
+            MovePlayer();
+        }
+
+        UpdateAnimation();
+    }
+    void FixedUpdate()
+    {
+        if(state != MovimentState.hit)
+        {
+            movement.x = Input.GetAxisRaw("Horizontal");
+            movement.y = Input.GetAxisRaw("Vertical");
+            rb.velocity = new Vector3(movement.x * speed, rb.velocity.y, 0);
+        }
+        
+        isGround = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer);
+
+        if(rb.velocity.y < -0.01f)
+        {
+            rb.gravityScale = gravity * gravityMult;
+        }
+        else
+        {
+            rb.gravityScale = gravity;
+        }
+    }
+
+    void UpdateAnimation()
+    {
+        if (rb.velocity.y > 0.1f)
+        {
+            state = MovimentState.jump;
+        }
+        else if (rb.velocity.y < -0.1f)
+        {
+            state = MovimentState.fall;
+        }
+        else if (rb.velocity.x > 0f || rb.velocity.x < -0f)
+        {
+            state = MovimentState.walk;
+        }
+        else
+        {
+            state = MovimentState.idle;
+        }
+        anima.SetInteger("state", (int)state);
+    }
+
+    void MovePlayer()
+    {
+        if (Input.GetButtonDown("Jump") && isGround)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, jumpForce, 0);
+        }
+    }
+
+    void JumpHigher()
+    {
+        jumpForce = 15f;
+        StartCoroutine(ResetPower());
+    }
+
+    private IEnumerator ResetPower()
+    {
+        yield return new WaitForSeconds(5);
+        jumpForce = 10f;
+        speed = 3.5f;
+    }
+
+    void Run()
+    {
+        speed = 6f;
+        StartCoroutine(ResetPower());
+    }
+
+    private void OnCollisionEnter2D(Collision2D collider)
+    {
+        if (collider.gameObject.CompareTag("Enemy"))
+        {
+            if (state == MovimentState.fall)
+            {
+                isFalling = true;
+                Enemy.moveSpeed = 0f;
+                collider.gameObject.GetComponent<Animator>().SetTrigger("EnemyDeath");
+                collider.gameObject.GetComponent<Collider2D>().enabled = false;
+                collider.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+                Destroy(collider.gameObject, collider.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length+0.5f);
+            }
+            else
+            {
+                isFalling = false;
+                state = MovimentState.hit;
+                if (collider.gameObject.transform.position.x > transform.position.x)
+                {
+                    rb.velocity = new Vector3(-30f, rb.velocity.y, 0);
+                }
+                else
+                {
+                    rb.velocity = new Vector3(30f, rb.velocity.y, 0);
+                }
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.CompareTag("PowerUp"))
+        {
+            JumpHigher();
+            Destroy(collider.gameObject);
+        }
+
+        if (collider.gameObject.CompareTag("Run"))
+        {
+            Run();
+            Destroy(collider.gameObject);
+        }
+
+    }
+
+}
