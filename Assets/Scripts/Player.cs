@@ -71,6 +71,7 @@ public class Player : MonoBehaviour
     }
     void FixedUpdate()
     {
+        //Personagem só se move se não tiver levando dado
         if(state != MovimentState.hit)
         {
             movement.x = Input.GetAxisRaw("Horizontal");
@@ -80,6 +81,7 @@ public class Player : MonoBehaviour
         
         isGround = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer);
 
+        //Cair mais rapido
         if(rb.velocity.y < -0.01f)
         {
             rb.gravityScale = gravity * gravityMult;
@@ -90,6 +92,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    //Movimentação com animação
     void UpdateAnimation()
     {
         if (rb.velocity.y > 0.1f)
@@ -111,6 +114,7 @@ public class Player : MonoBehaviour
         anima.SetInteger("state", (int)state);
     }
 
+    //Pulo
     void MovePlayer()
     {
         if (Input.GetButtonDown("Jump") && isGround)
@@ -119,12 +123,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    //Boost de pulo
     void JumpHigher()
     {
         jumpForce = 15f;
         StartCoroutine(ResetPower());
     }
 
+    //Voltar pro pulo e corrida normal
     private IEnumerator ResetPower()
     {
         yield return new WaitForSeconds(5);
@@ -132,12 +138,14 @@ public class Player : MonoBehaviour
         speed = 3.5f;
     }
 
+    //Boost de corrida
     void Run()
     {
         speed = 6f;
         StartCoroutine(ResetPower());
     }
 
+    //Colisão com o inimigo. Testa se o player caiu em cima dele
     private void OnCollisionEnter2D(Collision2D collider)
     {
         if (collider.gameObject.CompareTag("Enemy"))
@@ -167,6 +175,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    //Boosts
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.CompareTag("PowerUp"))

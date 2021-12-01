@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour
         col = GetComponent<Collider2D>();
     }
 
+    //Movimentação inimigo
     void FixedUpdate()
     {
         float velocityX = moveSpeed;
@@ -91,27 +92,6 @@ public class Enemy : MonoBehaviour
         return value;
     }
 
-    bool IsTouchingEnemy()
-    {
-        bool value;
-        float castDistance = distance;
-
-        Vector3 position = castStart.position;
-        position.x -= castDistance;
-        Debug.DrawLine(castStart.position, position, Color.blue);
-
-        //Desenha uma linha imaginária começando na posição do castStart, indo até a position e acertando a camada floor
-        if (Physics2D.Linecast(castStart.position, position, 1 << LayerMask.NameToLayer("Enemy")))
-        {
-            value = true;
-        }
-        else
-        {
-            value = false;
-        }
-        return value;
-    }
-
     void FlipDirection(string newDirection)
     {
         Vector3 newScale = scale;
@@ -128,6 +108,7 @@ public class Enemy : MonoBehaviour
         direction = newDirection;
     }
 
+    //Quando for destruido, restaura as caracteristicas iniciais
     void OnDestroy()
     {
         moveSpeed = 4f;
