@@ -8,10 +8,10 @@ public class Player : MonoBehaviour
     private SpriteRenderer sprite;
     private Rigidbody2D rb;
     private Animator anima;
-    private MovimentState state = MovimentState.idle;
     private UIManager uiManager;
+    private MovementState state = MovementState.idle;
     private bool isGround;
-    private enum MovimentState { idle, walk, jump, fall, hit };
+    private enum MovementState { idle, walk, jump, fall, hit };
     private float gravityMult = 2f;
     private float gravity;
     private float distance;
@@ -50,7 +50,8 @@ public class Player : MonoBehaviour
         {
             transform.localScale = new Vector2(-PLAYER_SIZE, PLAYER_SIZE);
         }
-        if(state != MovimentState.hit)
+         
+        if(state != MovementState.hit)
         {
             MovePlayer();
         }
@@ -60,7 +61,7 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         //Personagem só se move se não tiver levando dado
-        if(state != MovimentState.hit)
+        if (state != MovementState.hit)
         {
             movement.x = Input.GetAxisRaw("Horizontal");
             movement.y = Input.GetAxisRaw("Vertical");
@@ -85,19 +86,20 @@ public class Player : MonoBehaviour
     {
         if (rb.velocity.y > 0.1f)
         {
-            state = MovimentState.jump;
+            state = MovementState.jump;
         }
         else if (rb.velocity.y < -0.1f)
         {
-            state = MovimentState.fall;
+            state = MovementState.fall;
+        }
         }
         else if (rb.velocity.x > 0f || rb.velocity.x < -0f)
         {
-            state = MovimentState.walk;
+            state = MovementState.walk;
         }
         else
         {
-            state = MovimentState.idle;
+            state = MovementState.idle;
         }
         anima.SetInteger("state", (int)state);
     }
@@ -138,7 +140,7 @@ public class Player : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Enemy"))
         {
-            if (state == MovimentState.fall)
+            if (state == MovementState.fall)
             {
                 isFalling = true;
                 Enemy.moveSpeed = 0f;
@@ -149,7 +151,9 @@ public class Player : MonoBehaviour
             else
             {
                 isFalling = false;
-                state = MovimentState.hit;
+                state = MovementState.hit;
+
+                // Se o inimigo estiver à direita, o player é jogado pra esquerda, e vice-versa
                 if (collider.gameObject.transform.position.x > transform.position.x)
                 {
                     rb.velocity = new Vector3(-30f, rb.velocity.y, 0);
@@ -176,7 +180,5 @@ public class Player : MonoBehaviour
             Run();
             Destroy(collider.gameObject);
         }
-
     }
-
 }
