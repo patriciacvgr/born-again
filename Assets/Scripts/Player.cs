@@ -5,10 +5,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public static float PLAYER_SIZE = 0.2180092f;
-    private SpriteRenderer sprite;
     private Rigidbody2D rb;
     private Animator anima;
-    private UIManager uiManager;
     private MovementState state = MovementState.idle;
     private bool isGround;
     private enum MovementState { idle, walk, jump, fall, hit };
@@ -32,10 +30,8 @@ public class Player : MonoBehaviour
         movement = new Vector3();
         movement.x = 2f;
         movement.y = -1.5f;
-        sprite = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         anima = GetComponent<Animator>();
-        uiManager = FindObjectOfType<UIManager>();
         gravity = rb.gravityScale;
     }
 
