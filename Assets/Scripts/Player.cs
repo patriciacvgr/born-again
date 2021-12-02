@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static float PLAYER_SIZE = 0.2180092f;
     private SpriteRenderer sprite;
     private Rigidbody2D rb;
     private Animator anima;
@@ -56,11 +57,11 @@ public class Player : MonoBehaviour
 
         if (movement.x > 0f)
         {
-            sprite.flipX = false;
+            transform.localScale = new Vector2(PLAYER_SIZE, PLAYER_SIZE);
         }
         else if (movement.x < 0f)
         {
-            sprite.flipX = true;
+            transform.localScale = new Vector2(-PLAYER_SIZE, PLAYER_SIZE);
         }
         if(state != MovimentState.hit)
         {
