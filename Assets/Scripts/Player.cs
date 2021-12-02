@@ -144,7 +144,6 @@ public class Player : MonoBehaviour
                 Enemy.moveSpeed = 0f;
                 collider.gameObject.GetComponent<Animator>().SetTrigger("EnemyDeath");
                 collider.gameObject.GetComponent<Collider2D>().enabled = false;
-                collider.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
                 Destroy(collider.gameObject, collider.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length + 0.5f);
             }
             else

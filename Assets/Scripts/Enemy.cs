@@ -113,6 +113,5 @@ public class Enemy : MonoBehaviour
     {
         moveSpeed = 4f;
         col.enabled = true;
-        rb.bodyType = RigidbodyType2D.Dynamic;
     }
 }
