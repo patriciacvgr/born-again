@@ -24,7 +24,6 @@ public class Player : MonoBehaviour
     public float energy = 100f;
     public float checkRadius = 0.5f;
     public static bool isFalling = false;
-    public static float score;
 
     Vector3 movement;
 
@@ -38,23 +37,11 @@ public class Player : MonoBehaviour
         anima = GetComponent<Animator>();
         uiManager = FindObjectOfType<UIManager>();
         gravity = rb.gravityScale;
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        distance = transform.position.y - zeroPoint.position.y;
-        if ((transform.position.y > zeroPoint.position.y) && state != MovimentState.fall)
-        {
-            if(transform.position.y > score)
-            {
-               score = (int)distance;
-            }
-        }
-
-        uiManager.UpdateScore((int)score);
-
         if (movement.x > 0f)
         {
             transform.localScale = new Vector2(PLAYER_SIZE, PLAYER_SIZE);
@@ -158,7 +145,7 @@ public class Player : MonoBehaviour
                 collider.gameObject.GetComponent<Animator>().SetTrigger("EnemyDeath");
                 collider.gameObject.GetComponent<Collider2D>().enabled = false;
                 collider.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-                Destroy(collider.gameObject, collider.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length+0.5f);
+                Destroy(collider.gameObject, collider.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length + 0.5f);
             }
             else
             {

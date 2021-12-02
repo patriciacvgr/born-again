@@ -2,29 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
 
-    [SerializeField] TextMeshProUGUI scoreText;
-    //[SerializeField] private TextMeshPro scoreText;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI gameOverScoreText;
 
-    // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void UpdateScore(int score)
+    public void UpdateScore(string score)
     {
         scoreText.text = "Score: " + score;
-        //print(score);
+    }
+
+    public void ShowScoreGameOver(string score)
+    {
+        gameOverScoreText.text = "" + score;
     }
 }

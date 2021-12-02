@@ -51,7 +51,6 @@ public class PauseMenu : MonoBehaviour
     public void Restart()
     {
         Resume();
-        Player.score = 0;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

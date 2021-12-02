@@ -13,7 +13,9 @@ public class PlayerLife : MonoBehaviour
     private Animator anima;
     public GameObject GameOverUI;
     //public static bool GameIsOver = false;
-
+    private UIManager uiManager;
+    private float timer = 0.0f;
+    private string formattedTime;
 
 
     // Start is called before the first frame update
@@ -22,22 +24,23 @@ public class PlayerLife : MonoBehaviour
         currentLife = numberOfLives;
         Health.numOfHearts = numberOfLives;
         anima = GetComponent<Animator>();
+        uiManager = FindObjectOfType<UIManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        CountTimeScore();
     }
 
     public void GotLife()
     {
         
-            if (currentLife < 10 && currentLife > 0)
-            {
-                currentLife++;
-                Health.numOfHearts++;
-            }
+        if (currentLife < 10 && currentLife > 0)
+        {
+            currentLife++;
+            Health.numOfHearts++;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
@@ -49,13 +52,12 @@ public class PlayerLife : MonoBehaviour
         }
     }
 
-    public void GotHit ()
+    public void GotHit()
     {
         if(currentLife > 0)
         {
             currentLife--;
             Health.numOfHearts--;
-            //print(Health.health);
 
             if (currentLife == 0)
             {
@@ -81,8 +83,19 @@ public class PlayerLife : MonoBehaviour
         //yield return new WaitForSeconds(anima.GetCurrentAnimatorStateInfo(0).length);
         yield return new WaitForSeconds(1);
         GameOverUI.SetActive(true);
-        scoreText.text = ""+Player.score;
-        Player.score = 0;
+        uiManager.ShowScoreGameOver(formattedTime);
         Time.timeScale = 0f;
+    }
+
+    private void CountTimeScore()
+    {
+        timer += Time.deltaTime;
+        int hours = Mathf.FloorToInt(timer / 3600F);
+        int minutes = Mathf.FloorToInt((timer % 3600) / 60);
+        int seconds = Mathf.FloorToInt(timer % 60);
+
+        formattedTime = string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
+
+        uiManager.UpdateScore(formattedTime);
     }
 }
