@@ -82,6 +82,7 @@ public class PlayerLife : MonoBehaviour
         yield return new WaitForSeconds(1);
         GameOverUI.SetActive(true);
         scoreText.text = ""+Player.score;
+        Player.score = 0;
         Time.timeScale = 0f;
     }
 }
