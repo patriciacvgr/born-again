@@ -6,8 +6,6 @@ using TMPro;
 
 public class PlayerLife : MonoBehaviour
 {
-
-    [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] private int numberOfLives = 5;
     [SerializeField] private int currentLife;
     private Animator anima;
@@ -61,6 +59,7 @@ public class PlayerLife : MonoBehaviour
 
             if (currentLife == 0)
             {
+                anima.SetTrigger("death");
                 StartCoroutine(GameOver());
                 UnityEngine.Debug.Log("Game Over");
             }
@@ -80,8 +79,7 @@ public class PlayerLife : MonoBehaviour
 
     public IEnumerator GameOver()
     {
-        //yield return new WaitForSeconds(anima.GetCurrentAnimatorStateInfo(0).length);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(anima.GetCurrentAnimatorStateInfo(0).length + 0.5f);
         GameOverUI.SetActive(true);
         uiManager.ShowScoreGameOver(formattedTime);
         Time.timeScale = 0f;

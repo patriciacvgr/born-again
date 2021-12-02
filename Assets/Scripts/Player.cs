@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     private enum MovementState { idle, walk, jump, fall, hit };
     private float gravityMult = 2f;
     private float gravity;
-    private float distance;
+    [SerializeField] private float hitForce = 7f;
     [SerializeField] private float jumpForce = 10f;
 
     public Transform groundCheck;
@@ -56,11 +56,12 @@ public class Player : MonoBehaviour
     }
     void FixedUpdate()
     {
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
+
         //Personagem só se move se não tiver levando dado
         if (state != MovementState.hit)
         {
-            movement.x = Input.GetAxisRaw("Horizontal");
-            movement.y = Input.GetAxisRaw("Vertical");
             rb.velocity = new Vector3(movement.x * speed, rb.velocity.y, 0);
         }
         
@@ -88,6 +89,13 @@ public class Player : MonoBehaviour
         {
             state = MovementState.fall;
         }
+        else if (state == MovementState.hit)
+        {
+            // Mathf.Abs retorna somente o valor positivo de rb.velocity.x, apenas a variação positiva
+            if (Mathf.Abs(rb.velocity.x) < .01f)
+            {
+                state = MovementState.idle;
+            }
         }
         else if (rb.velocity.x > 0f || rb.velocity.x < -0f)
         {
@@ -152,11 +160,11 @@ public class Player : MonoBehaviour
                 // Se o inimigo estiver à direita, o player é jogado pra esquerda, e vice-versa
                 if (collider.gameObject.transform.position.x > transform.position.x)
                 {
-                    rb.velocity = new Vector3(-30f, rb.velocity.y, 0);
+                    rb.velocity = new Vector2(-hitForce, rb.velocity.y);
                 }
                 else
                 {
-                    rb.velocity = new Vector3(30f, rb.velocity.y, 0);
+                    rb.velocity = new Vector2(hitForce, rb.velocity.y);
                 }
             }
         }

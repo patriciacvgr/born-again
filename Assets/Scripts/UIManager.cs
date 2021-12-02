@@ -5,7 +5,6 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI gameOverScoreText;
 
@@ -21,7 +20,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdateScore(string score)
     {
-        scoreText.text = "Score: " + score;
+        scoreText.text = "Time: " + score;
     }
 
     public void ShowScoreGameOver(string score)
