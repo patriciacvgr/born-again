@@ -10,6 +10,7 @@ TagManager:
   - Life
   - PowerUp
   - Run
+  - EnemyCollider
   layers:
   - Default
   - TransparentFX
