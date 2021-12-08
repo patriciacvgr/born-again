@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    private Transform playerTransform;
+    /*private Transform playerTransform;
     public float offset;
     // Start is called before the first frame update
     void Start()
@@ -19,5 +19,5 @@ public class CameraFollow : MonoBehaviour
         temp.y = playerTransform.position.y;
         temp.y += offset;
         playerTransform.position = temp;
-    }
+    }*/
 }

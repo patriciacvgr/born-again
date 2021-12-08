@@ -10,7 +10,6 @@ public class PlayerLife : MonoBehaviour
     [SerializeField] private int currentLife;
     private Animator anima;
     public GameObject GameOverUI;
-    //public static bool GameIsOver = false;
     private UIManager uiManager;
     private float timer = 0.0f;
     private string formattedTime;
@@ -34,7 +33,7 @@ public class PlayerLife : MonoBehaviour
     public void GotLife()
     {
         
-        if (currentLife < 10 && currentLife > 0)
+        if (currentLife < 5 && currentLife > 0)
         {
             currentLife++;
             Health.numOfHearts++;
@@ -77,6 +76,7 @@ public class PlayerLife : MonoBehaviour
         }
     }
 
+    // faz coroutine
     public IEnumerator GameOver()
     {
         yield return new WaitForSeconds(anima.GetCurrentAnimatorStateInfo(0).length + 0.5f);
@@ -87,6 +87,7 @@ public class PlayerLife : MonoBehaviour
 
     private void CountTimeScore()
     {
+        // deltaTime está em segundos e é dividido pela quantidade de segundos numa hora, o resto então é dividido por 60 minutos
         timer += Time.deltaTime;
         int hours = Mathf.FloorToInt(timer / 3600F);
         int minutes = Mathf.FloorToInt((timer % 3600) / 60);
