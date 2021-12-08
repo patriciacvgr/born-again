@@ -142,7 +142,7 @@ public class Player : MonoBehaviour
     // Colisão com o inimigo, testa se o player caiu em cima dele
     private void OnCollisionEnter2D(Collision2D collider)
     {
-        if (collider.gameObject.CompareTag("EnemyCollider"))
+        if (collider.gameObject.CompareTag("Enemy"))
         {
             if (state == MovementState.fall)
             {
