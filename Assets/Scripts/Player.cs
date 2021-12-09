@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
     public float energy = 100f;
     public float checkRadius = 0.5f;
     public static bool isFalling = false;
-    public const float PLAYER_SIZE = 0.2180092f;
+    public const float PLAYER_SIZE = 0.5f;
 
     Vector3 movement;
 
