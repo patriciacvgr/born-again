@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     private float gravity;
     [SerializeField] private float hitForce = 7f;
     [SerializeField] private float jumpForce = 10f;
+    [SerializeField] private AudioClip jumpEffect, enemyCollision, collectingItem;
 
     public Transform groundCheck;
     public Transform zeroPoint;
@@ -113,6 +114,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump") && isGround)
         {
+            SoundManager.Instance.PlaySound(jumpEffect);
             rb.velocity = new Vector3(rb.velocity.x, jumpForce, 0);
         }
     }
@@ -144,6 +146,7 @@ public class Player : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Enemy"))
         {
+            SoundManager.Instance.PlaySound(enemyCollision);
             if (state == MovementState.fall)
             {
                 isFalling = true;
@@ -175,12 +178,14 @@ public class Player : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("PowerUp"))
         {
+            SoundManager.Instance.PlaySound(collectingItem);
             JumpHigher();
             Destroy(collider.gameObject);
         }
 
         if (collider.gameObject.CompareTag("Run"))
         {
+            SoundManager.Instance.PlaySound(collectingItem);
             Run();
             Destroy(collider.gameObject);
         }

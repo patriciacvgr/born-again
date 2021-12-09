@@ -5,18 +5,8 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
-    [SerializeField] private AudioSource _musicSource, _effectSource;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] private AudioSource _musicSource, _effectSource;
 
     void Awake()
     {

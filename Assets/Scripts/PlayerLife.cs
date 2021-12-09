@@ -6,6 +6,7 @@ using TMPro;
 
 public class PlayerLife : MonoBehaviour
 {
+    [SerializeField] private AudioClip playerDeath, collectingItem;
     [SerializeField] private int numberOfLives = 5;
     [SerializeField] private int currentLife;
     private Animator anima;
@@ -44,6 +45,7 @@ public class PlayerLife : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Life"))
         {
+            SoundManager.Instance.PlaySound(collectingItem);
             GotLife();
             Destroy(collider.gameObject);
         }
@@ -58,6 +60,7 @@ public class PlayerLife : MonoBehaviour
 
             if (currentLife == 0)
             {
+                SoundManager.Instance.PlaySound(playerDeath);
                 anima.SetTrigger("death");
                 StartCoroutine(GameOver());
                 UnityEngine.Debug.Log("Game Over");
