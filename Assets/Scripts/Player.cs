@@ -189,5 +189,11 @@ public class Player : MonoBehaviour
             Run();
             Destroy(collider.gameObject);
         }
+
+        if (collider.gameObject.CompareTag("FastSound"))
+        {
+            Destroy(collider.gameObject);
+            SoundManager.Instance._musicSource.pitch += .10f;
+        }
     }
 }
