@@ -25,4 +25,11 @@ public class SoundManager : MonoBehaviour
     {
         _effectSource.PlayOneShot(clip);
     }
+
+    public void ChangeMasterVolume(float value)
+    {
+        AudioListener.volume = value;
+    }
+
+    
 }
