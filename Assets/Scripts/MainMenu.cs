@@ -7,8 +7,8 @@ public class MainMenu : MonoBehaviour
 {
 
     void Start()
-    {
-        
+    { 
+        SoundManager.Instance._musicSource.Stop();
     }
 
     void Update()

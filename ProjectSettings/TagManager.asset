@@ -12,6 +12,8 @@ TagManager:
   - Run
   - EnemyCollider
   - FastSound
+  - Ending
+  - HeartBeat
   layers:
   - Default
   - TransparentFX

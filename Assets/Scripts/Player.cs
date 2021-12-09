@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class Player : MonoBehaviour
     private float gravity;
     [SerializeField] private float hitForce = 7f;
     [SerializeField] private float jumpForce = 10f;
-    [SerializeField] private AudioClip jumpEffect, enemyCollision, collectingItem;
+    [SerializeField] private AudioClip jumpEffect, enemyCollision, collectingItem, heartBeating;
 
     public Transform groundCheck;
     public Transform zeroPoint;
@@ -194,6 +195,19 @@ public class Player : MonoBehaviour
         {
             Destroy(collider.gameObject);
             SoundManager.Instance._musicSource.pitch += .10f;
+        }
+
+        if (collider.gameObject.CompareTag("HeartBeat"))
+        {
+            Destroy(collider.gameObject);
+            SoundManager.Instance._musicSource.mute = true;
+            SoundManager.Instance.PlaySound(heartBeating);
+            SoundManager.Instance._musicSource.volume = Mathf.Lerp(0.0f, SoundManager.Instance._musicSource.volume, Time.deltaTime);
+        }
+
+        if (collider.gameObject.CompareTag("Ending"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 }
