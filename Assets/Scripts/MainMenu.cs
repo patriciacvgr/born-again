@@ -5,16 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-
-    void Start()
-    { 
-        SoundManager.Instance._musicSource.Stop();
-    }
-
-    void Update()
-    {
-        
-    }
+    [SerializeField] private GameObject OptionsMenuUI;
 
     public void NewGame()
     {
@@ -27,14 +18,9 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
-    public void Settings()
-    {
-
-    }
-
     public void CloseTab()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        OptionsMenuUI.SetActive(false);
     }
 
 

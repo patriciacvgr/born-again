@@ -5,12 +5,19 @@ using UnityEngine.UI;
 
 public class VolumeSlider : MonoBehaviour
 {
-    [SerializeField] private VolumeSlider _slider;
+    [SerializeField] private Slider _slider;
+    [SerializeField] private bool isMasterVolume, isMusic, isEffect;
 
-    // Start is called before the first frame update
     void Start()
     {
-       // _slider.onValueChanged.AddListener(val => SoundManager.Instance.ChangeMasterVolume(val));
-    }
+        SoundManager.Instance.ChangeMasterVolume(_slider.value);
+        SoundManager.Instance.ChangeMusicVolume(_slider.value);
+        SoundManager.Instance.ChangeEffectsVolume(_slider.value);
 
+        if (isMasterVolume) _slider.onValueChanged.AddListener(val => SoundManager.Instance.ChangeMasterVolume(val));
+
+        if (isMusic) _slider.onValueChanged.AddListener(val => SoundManager.Instance.ChangeMusicVolume(val));
+
+        if (isEffect) _slider.onValueChanged.AddListener(val => SoundManager.Instance.ChangeEffectsVolume(val));
+    }
 }

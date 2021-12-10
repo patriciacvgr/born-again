@@ -8,19 +8,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI gameOverScoreText;
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-
-    }
-
     public void UpdateScore(string score)
     {
-        scoreText.text = "Time: " + score;
+        scoreText.text = score;
     }
 
     public void ShowScoreGameOver(string score)
