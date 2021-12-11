@@ -47,11 +47,4 @@ public class PauseMenu : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         SoundManager.Instance._musicSource.pitch = 1.0f;
     }
-
-    public void ExitToMenu()
-    {
-        SceneManager.LoadScene(0);
-    }
-
-
 }
