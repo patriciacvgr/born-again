@@ -8,11 +8,13 @@ public class Enemy : MonoBehaviour
     [SerializeField] public static float moveSpeed = 4f;
     [SerializeField] private float distance;
     [SerializeField] private string direction;
+    [SerializeField] private float hitForce = 4f;
 
     private Collider2D col;
     private Animator anima;
     private Rigidbody2D rb;
     private Vector3 scale;
+    private bool hasToMove = true;
 
     void Start()
     {
@@ -21,26 +23,62 @@ public class Enemy : MonoBehaviour
         col = GetComponent<Collider2D>();
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if (!Player.isFalling)
+            {
+                hasToMove = false;
+                if (collision.gameObject.transform.position.x > transform.position.x)
+                {
+                    rb.velocity = new Vector2(-hitForce, rb.velocity.y);
+                }
+                else
+                {
+                    rb.velocity = new Vector2(hitForce, rb.velocity.y);
+                }
+            }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            StartCoroutine(BackToMove());
+        }
+    }
+
+    private IEnumerator BackToMove()
+    {
+        yield return new WaitForSeconds(.6f);
+        hasToMove = true;
+    }
+
     // Movimentação inimigo
     void FixedUpdate()
     {
-        float velocityX = moveSpeed;
-
-        if (direction == "Left")
+        if (hasToMove)
         {
-            velocityX = -moveSpeed;
-        }
-        rb.velocity = new Vector3(velocityX, rb.velocity.y, 0);
+            float velocityX = moveSpeed;
 
-        if (IsTouchingWall() || IsOnEdge())
-        {
             if (direction == "Left")
             {
-                FlipDirection("Right");
+                velocityX = -moveSpeed;
             }
-            else 
+            rb.velocity = new Vector3(velocityX, rb.velocity.y, 0);
+
+            if (IsTouchingWall() || IsOnEdge())
             {
-                FlipDirection("Left");
+                if (direction == "Left")
+                {
+                    FlipDirection("Right");
+                }
+                else
+                {
+                    FlipDirection("Left");
+                }
             }
         }
     }

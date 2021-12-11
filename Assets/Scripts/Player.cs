@@ -194,20 +194,29 @@ public class Player : MonoBehaviour
         if (collider.gameObject.CompareTag("FastSound"))
         {
             Destroy(collider.gameObject);
-            SoundManager.Instance._musicSource.pitch += .10f;
+            SoundManager.Instance._musicSource.pitch += .04f;
         }
 
         if (collider.gameObject.CompareTag("HeartBeat"))
         {
             Destroy(collider.gameObject);
-            SoundManager.Instance._musicSource.mute = true;
+            SoundManager.Instance._effectSource.volume = 0.0f;
             SoundManager.Instance.PlaySound(heartBeating);
-            SoundManager.Instance._musicSource.volume = Mathf.Lerp(0.0f, SoundManager.Instance._musicSource.volume, Time.deltaTime);
+            StartCoroutine(ChangeVolumes());
         }
 
         if (collider.gameObject.CompareTag("Ending"))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+    }
+    private IEnumerator ChangeVolumes()
+    {
+        while (SoundManager.Instance._musicSource.volume > 0.0f)
+        {
+            SoundManager.Instance._effectSource.volume += 0.005f;
+            SoundManager.Instance._musicSource.volume -= 0.005f;
+            yield return null;
         }
     }
 }

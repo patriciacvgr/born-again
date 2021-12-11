@@ -5,8 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] private GameObject OptionsMenuUI;
+    [SerializeField] private GameObject optionsMenuUI;
+    [SerializeField] private GameObject creditsUI;
 
+    private void Start()
+    {
+        ButtonClick.StopMusic();
+        
+    }
     public void NewGame()
     {
         Time.timeScale = 1f;
@@ -20,8 +26,11 @@ public class MainMenu : MonoBehaviour
 
     public void CloseTab()
     {
-        OptionsMenuUI.SetActive(false);
+        optionsMenuUI.SetActive(false);
     }
 
-
+    public void CloseCredits()
+    {
+        creditsUI.SetActive(false);
+    }
 }

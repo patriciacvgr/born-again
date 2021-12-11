@@ -9,11 +9,6 @@ public class PauseMenu : MonoBehaviour
     public static bool GameIsPaused = false;
     public GameObject PauseMenuUI;
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
@@ -50,6 +45,7 @@ public class PauseMenu : MonoBehaviour
     {
         Resume();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SoundManager.Instance._musicSource.pitch = 1.0f;
     }
 
     public void ExitToMenu()
