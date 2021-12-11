@@ -30,8 +30,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         movement = new Vector3();
-        movement.x = 2f;
-        movement.y = -1.5f;
         rb = GetComponent<Rigidbody2D>();
         anima = GetComponent<Animator>();
         gravity = rb.gravityScale;
@@ -93,8 +91,8 @@ public class Player : MonoBehaviour
         }
         else if (state == MovementState.hit)
         {
-            // Pega apenas a variação positiva de x, só pra saber quando a distância chegou em 0
-            if (Mathf.Abs(rb.velocity.x) < 4f) //mudar pra 0.01f depois que arrumar a animação de dano
+            // Pega apenas a variação positiva de x, só pra saber quando a distância chegou em 4
+            if (Mathf.Abs(rb.velocity.x) < 4f) 
             {
                 state = MovementState.idle;
             }

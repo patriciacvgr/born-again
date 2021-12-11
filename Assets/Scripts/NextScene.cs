@@ -12,7 +12,7 @@ public class NextScene : MonoBehaviour
 
     private IEnumerator LoadNextScene()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(15);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

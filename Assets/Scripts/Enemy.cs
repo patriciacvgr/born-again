@@ -50,6 +50,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    // Para a movimentação do personagem por um tempo pra não dar conflito com a movimentaçao (ex: estar indo pra dir e sendo jogado pra esq)
     private IEnumerator BackToMove()
     {
         yield return new WaitForSeconds(.6f);

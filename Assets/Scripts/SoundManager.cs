@@ -8,6 +8,7 @@ public class SoundManager : MonoBehaviour
 
     public AudioSource _musicSource, _effectSource;
 
+    // Checa se tem um sound manager funcionando, e destroi se não funcionar
     void Awake()
     {
         if (Instance == null)

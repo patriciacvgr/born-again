@@ -63,7 +63,7 @@ public class PlayerLife : MonoBehaviour
                 SoundManager.Instance.PlaySound(playerDeath);
                 anima.SetTrigger("death");
                 StartCoroutine(GameOver());
-                UnityEngine.Debug.Log("Game Over");
+                //UnityEngine.Debug.Log("Game Over");
             }
         }
     }
